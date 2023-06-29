@@ -1,0 +1,198 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{cls/iitikz}
+\input{cls/bsty}
+\usepackage{amssymb}
+\input{model_2_e_sa/expinfo}
+
+
+\def\xmin{0}
+\def\xmax{1}
+
+
+
+
+
+
+% \h{2}=1.414;
+% =------------= 
+\tikzmath{
+\a1=6;
+\a2=2;
+\p=4;
+\th=0.15;
+\h{1}=0.86;
+\h{3}=1.65;
+% \b=0.7;
+}
+
+
+\edef\plottitle{$
+a_1=\a1,\;
+a_2=\a2,\;
+% b=\b,\;
+p=\p,\;
+\theta=\th,\;
+% h\in \{\h{1},\h{3}\};
+h=\h{1}
+$}
+
+
+\def\parameter{
+a1=\a1;
+a2=\a2;
+p=\p;
+theta=\th;
+% b=\b;
+}
+
+
+
+
+
+% #1:d
+% #2:phi
+% #3:b
+% #4:dc
+% #5:phic
+\def\setup#1#2#3#4#5{
+\edef\symbolL{\ylabel{#4}}
+\edef\symbolR{\ylabel{#5}}
+\edef\ylabelL{\y{#1}}
+\edef\ylabelR{\y{#2}\ylabel{#5}}
+\edef\xlabel{\x{#3}}
+\edef\legenL{\expr{#4}}
+\edef\legenR{\expr{#5}}
+\edef\plotfunL{plot #1(x)}
+\edef\plotfunR{plot #2(x)}
+}
+
+
+\setup{d}{phi}{b}{de}{phie}
+\def\funplot{\parameter\funexpr{b}}
+
+
+
+
+\begin{document}
+\begin{tikzpicture}[remember picture]
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % enlarge y limits={0.1,upper},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=left,
+    axis x line*=bottom,
+    y axis line style={\colorL},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelL},
+    ylabel style={\colorL},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorL},
+    % 轴刻度-标签
+    yticklabel style={\colorL},
+    % 
+    xtick={\getxmin,\getxmax},
+    % xticklabels={},
+    % 
+    ymin=-2.5,
+    ymax=0.6,
+    ytick={\getymin, 0, \getymax},
+    % 
+    extra description/.code={
+        \path [draw,gray] (axis description cs:0,0) rectangle (axis description cs:1,1) 
+            node [anchor=west,inner sep=0,font=\footnotesize] at (tick0.east) 
+            {$\rightsquigarrow$ \textcolor{MistyRose4}{\xlabel}};
+        },
+    % -------------------------------------- %
+    % 图例
+    legend pos=north east,
+    legend cell align=left,
+    legend style={row sep = 4pt,
+        opacity=0.9,
+        on layer=axis descriptions},
+    legend entries={\legenL,\legenR},
+]
+
+
+
+\iiplot [a,\colorL] {
+h=\h{1};
+\funplot;
+\plotfunL;
+} 
+\addsymbol{0.325}{\symbolL }
+\addpoint{0}{0}
+\addpoint{1}{180}
+;
+
+
+
+\absplot{-1};
+
+
+ 
+
+
+
+
+
+
+
+
+\end{axis}
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % % enlarge y limits={0.5,lower1},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=right,
+    axis x line*=none,
+    y axis line style={\colorR},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelR},
+    ylabel style={\colorR},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorR},
+    % 轴刻度-标签
+    yticklabel style={\colorR},
+    % 
+    xtick=\empty,
+    % xticklabels={},
+    % 
+    ymin=2,
+    ymax=6,
+    ytick={\getymin, \getymax},
+    % 
+]
+
+\iiplot [a,\colorR] {
+h=\h{1};
+\funplot;
+\plotfunR;
+} 
+\addsymbol{0.325}{\symbolR } 
+\addpoint{0}{45}
+\addpoint{1}{145}
+;
+
+
+ 
+
+
+
+\end{axis}
+\end{tikzpicture}\end{document}

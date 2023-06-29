@@ -1,0 +1,48 @@
+% v1.0 lastupdate:2023-06-24
+\tikzset{
+yaxis arrow/.tip={Stealth[length=7pt].|}
+}
+
+\pgfplotsset{
+    defsty/.style={
+        set layers, % 启用图层功能
+        width=9cm,height=8cm,
+        % 
+        grid,
+        grid style={gray,line width=0.2pt,opacity=0.2},
+        % 
+        axis line shift=5pt, 
+        x axis line style={|-|,line width=0.75pt,gray},
+        y axis line style={|-|,line width=1pt},
+        % 
+        % 图形标题样式
+        title={\plottitle},
+        title style={inner ysep=0},
+        % 
+        % 轴标题样式
+        ylabel style={font=\large,inner ysep=2pt},
+        % 
+        % 轴刻度或标签
+        tick align=center,
+        xticklabel style={
+            name=tick\ticknum,
+            inner xsep=0pt,
+            },
+        yticklabel style={rotate=90},
+        ticklabel style={
+            font=\scriptsize,
+            /pgf/number format/fixed,
+            /pgf/number format/precision=2,
+            /pgf/number format/skip 0.
+            },
+        xmin=\xmin,
+        xmax=\xmax,
+        enlargelimits=false,
+    }
+}
+
+
+\definecolor{Lb}{HTML}{39598a}
+\definecolor{Lg}{HTML}{d31f28}
+\def\colorL{MidnightBlue}
+\def\colorR{Mahogany}

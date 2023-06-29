@@ -1,0 +1,85 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{cls/iitikz}
+\input{cls/csty}
+\usepackage{amssymb}
+
+\definecolor{Lb}{HTML}{39598a}
+\definecolor{Lg}{HTML}{d31f28}
+\def\colorL{NavyBlue}
+\def\colorR{FireBrick}
+
+\def\xmin{0}
+\def\xmax{1}
+
+
+\tikzmath{
+\plottitle="";
+\ylabelL="";
+\xlabelB="";
+\legenL="";
+}
+
+% \tikzmath{
+% \ylabelR="";
+% \xlabelT="";
+% \legenR="";
+% }
+
+\begin{document}\begin{tikzpicture}[remember picture]
+\begin{axis}[
+    defsty,
+    name = p,
+    % 1-------------------------------------- %
+    % enlarge y limits={0.1},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\plottitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    % axis y line*=left,
+    % axis x line*=bottom,
+    % y axis line style={\colorL},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    % ylabel={\ylabelL},
+    % ylabel style={\colorL},
+    % -------------------------------------- %
+    % 轴刻度
+    % ytick style={\colorL},
+    % 轴刻度-标签
+    % yticklabel style={\colorL},
+    % 
+    xtick={\getxmin,\getxmax},
+    % xticklabels={},
+    % 
+    % ymin=-16,
+    % ymax=0.533,
+    % ytick={\getymin, \getymax},
+    % 
+    % 额外的样式代码
+    extra description/.code={
+        \path [draw,gray] (axis description cs:0,0) rectangle (axis description cs:1,1) node [anchor=west,inner sep=0,font=\scriptsize] at (tick0.east) {$\rightsquigarrow$ \textcolor{MistyRose4}{\xlabelB}};
+        },
+    % -------------------------------------- %
+    % 图例
+    legend pos=outer north east,
+    legend cell align=left,
+    legend style={row sep = 4pt,
+        opacity=0.85,
+        % 设置图例在最顶层
+        on layer=axis descriptions},
+    legend entries={\legenL},
+]
+
+\iiplot [a,\colorL] {
+f(x,h)=x^2+h;
+plot f(x,2);
+} 
+\addsymbol{0.125}{$d$} 
+\addpoint{0}{45}
+;
+
+\end{axis}
+\node at(p.outer south east) {e};
+\end{tikzpicture}\end{document}

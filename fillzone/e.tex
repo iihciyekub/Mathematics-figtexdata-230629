@@ -1,0 +1,165 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{cls/iitikz}
+\input{cls/csty}
+\usepackage{amssymb}
+
+
+ 
+
+
+\definecolor{fillR}{HTML}{FCBF1E}
+\definecolor{fillL}{HTML}{40BAD5}
+
+\definecolor{Lb}{HTML}{000000}
+\definecolor{Lg}{HTML}{d31f28}
+\def\colorL{Lb}
+
+\def\xmin{0}
+\def\xmax{2}
+
+
+
+
+
+
+% =------------= 
+\tikzmath{
+\a1=6;
+\a2=2;
+\p=4;
+\th=0.78;
+% \b=0.7;
+}
+
+
+\edef\plottitle{$
+% a_1=\a1;
+a_2=\a2;
+% b=\b;
+p=\p;
+\theta=\th;
+% h\in \{\h{1},\h{3}\};
+% h= \h{1};
+$}
+
+
+\def\parameter{
+a1=\a1;
+a2=\a2;
+p=\p;
+theta=\th;
+% b=\b;
+}
+
+
+
+
+ 
+\def\setup#1#2#3#4#5{
+\edef\symbolL{\ylabel{#4}}
+\edef\symbolR{\ylabel{#5}}
+\edef\ylabelL{\y{#1}\ylabel{#4}}
+\edef\ylabelR{\y{#2}\ylabel{#5}}
+\edef\xlabel{\x{#3}}
+\edef\legenL{\expr{#4}}
+\edef\legenR{\expr{#5}}
+\edef\plotfunL{plot #1(x)}
+\edef\plotfunR{plot #2(x)}
+}
+
+
+ 
+
+
+\begin{document}
+\begin{tikzpicture}[remember picture]
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % enlarge y limits={0.1,upper},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    title style={inner ysep=3pt},
+    % -------------------------------------- %
+    % 轴线
+    % axis y line*=left,
+    % axis x line*=bottom,
+    % y axis line style={\colorL},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={Substitution factor: $b$},
+    % ylabel style={\colorL},
+    % -------------------------------------- %
+    % 轴刻度
+    % ytick style={\colorL},
+    % 轴刻度-标签
+    % yticklabel style={\colorL},
+    % 
+    xtick={\getxmin,1.23,1.81,\getxmax},
+    % xticklabels={},
+    % 
+    ymin=0,
+    ymax=1,
+    ytick={\getymin,\getymax},
+    % 
+    extra description/.code={
+        \path [draw,gray] (axis description cs:0,0) rectangle (axis description cs:1,1) 
+            node [anchor=west,inner sep=0,font=\footnotesize] at (tick0.east) 
+            {$\rightsquigarrow$ \textcolor{MistyRose4}{Impact factor: $h$}};
+        },
+    % -------------------------------------- %
+    % 图例
+    clip=false,
+    legend pos=north west,
+    legend cell align=left,
+    legend style={row sep = 4pt,
+        opacity=0.9,
+        on layer=axis descriptions},
+    legend entries={$b=\frac{h^{2}\theta}{2}-\frac{h^{2}}{2}-\frac{h}{2}-3\theta+3+\frac{2}{h}-\frac{a_{2}}{p}$}
+]
+
+\iiplot [a,\colorL] {
+plot [1.23:1.810] -0.11*x**2 - 0.5*x + 0.16 + 2.0/x;
+} 
+\addsymbol{0.5,text opacity=1}{$  d^c = d^e$}
+\addpoint{0}{-144}
+\addpoint{1}{110}
+;
+
+
+
+
+
+
+
+\path [draw=none,name path=b] (axis description cs:0,1)-- (axis description cs:1,1) -- (axis description cs:1,0) ;
+\addplot [draw=none,fillR,opacity=0.5] fill between [
+    of=a and b,
+];
+
+ 
+
+\path [draw=none,name path=b](axis description cs:1,0) -- (axis description cs:0,0) --   (axis description cs:0,1);
+\addplot [draw=none,pattern=north east lines,opacity=0.3] fill between [
+    of=a and b,
+];
+\addplot [draw=none,fillL,opacity=0.2] fill between [
+    of=a and b
+];
+
+
+
+
+
+
+
+
+\path node [align=left,]at(axis description cs:0.2,0.6) {$  d^e <d^c $ \\ $\phi^e > \phi^c$  }
+node[align=left,] at(axis description cs:0.87,0.6) {$ d^e > d^c $\\ $\phi^e < \phi^c$ };
+
+
+
+\end{axis}
+
+\end{tikzpicture}\end{document}

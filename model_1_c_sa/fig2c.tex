@@ -1,0 +1,222 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{cls/iitikz}
+\input{cls/bsty}
+\usepackage{amssymb}
+
+
+\input{model_1_c_sa/expinfo}
+ 
+
+
+\def\xmin{0}
+\def\xmax{10}
+
+
+
+\tikzmath{
+\a1=6;
+\a2=2;
+\p=15;
+\th=0.618;
+\h=1.72;
+\b{1}=0.28;
+\b{2}=0.76;
+\vd=1+\th-\th*\h*\h/2;
+\vth=1-\th ;
+}
+
+
+\edef\plottitle{$
+a_1=\a1,\;
+a_2=\a2,\;
+b=\{\b{1}, \b{2}\},\;
+\theta=\th,\;
+h=\h
+$}
+
+
+\def\parameter{
+a1=\a1;
+a2=\a2;
+theta=\th;
+h=\h;
+}
+
+
+
+
+
+% #1:d
+% #2:phi
+% #3:b
+% #4:dc
+% #5:phic
+\def\setup#1#2#3#4#5{
+\edef\symbolL{\ylabel{#4}}
+\edef\symbolR{\ylabel{#5}}
+\edef\ylabelL{\y{#4}}
+\edef\ylabelR{\y{#2}\ylabel{#5}}
+\edef\xlabel{\x{#3}}
+\edef\legenL{\expr{#4}}
+\edef\legenR{\expr{#5}}
+\edef\plotfunL{plot #1(x)}
+\edef\plotfunR{plot #2(x)}
+}
+
+
+\setup{d}{phi}{p}{dc}{phic}
+\def\funplot{\parameter\funexpr{p}}
+
+
+
+
+\begin{document}
+\begin{tikzpicture}[remember picture]
+\tikzmath{
+    \calymax=4.3;
+    \calymin=-4.92;
+    \yupper = 0.25;
+    \ylower = 0.67;
+    \tickymax=\calymax + (\calymax-\calymin)*\yupper;
+    \tickymin=\calymin - (\calymax-\calymin)*\ylower;
+}
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=left,
+    axis x line*=bottom,
+    y axis line style={\colorL},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelL},
+    ylabel style={\colorL},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorL},
+    % 轴刻度-标签
+    yticklabel style={\colorL},
+    % 
+    xtick={\getxmin,\getxmax},
+    % xticklabels={},
+    % 
+    % ytick={\getymin,\getymax},
+    ymin=\tickymin,
+    ymax=\tickymax,
+    ytick={0,\calymin,\calymax},
+    % 
+    extra description/.code={
+        \path [draw,gray] (axis description cs:0,0) rectangle (axis description cs:1,1) 
+            node [anchor=west,inner sep=0,font=\footnotesize] at (tick0.east) 
+            {$\rightsquigarrow$ \textcolor{MistyRose4}{$\xlabel$}};
+        },
+    % -------------------------------------- %
+    % 图例
+    legend pos=north west,
+    legend cell align=left,
+    legend style={row sep = 4pt,
+        opacity=0.9,
+        on layer=axis descriptions},
+    legend entries={\legenL,\legenR},
+]
+
+\iiplot [a,\colorL] {
+b=\b{1};
+\funplot;
+\plotfunL;
+} 
+\addsymbol{0.65}{\symbolL $\{b=\b{1}<1+\theta-\frac{\theta h^2}{2}\}$}
+\addpoint{0}{87}
+\addpoint{1}{-180}
+;
+
+\absplot{2};
+
+
+
+\iiplot [a,\colorL,dashdotdotted,opacity=0.4] {
+b=\b{2};
+\funplot;
+\plotfunL;
+} 
+\addsymbol{0.3}{\symbolL $\{b=\b{2} > 1+\theta-\frac{\theta h^2}{2}\}$}
+;
+ 
+
+\addnote{0.027,0.736}{$1+\theta-\frac{\theta h^2}{2} = \vd$\\ $1-\theta = \vth$};
+
+
+
+
+
+\end{axis}
+\tikzmath{
+\calymax=9.54;
+\calymin=1.62;
+\yupper = 1.2;
+\ylower = 0.1;
+\tickymax=\calymax + (\calymax-\calymin)*\yupper;
+\tickymin=\calymin - (\calymax-\calymin)*\ylower;
+}
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=right,
+    axis x line*=none,
+    y axis line style={\colorR},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelR},
+    ylabel style={\colorR},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorR},
+    % 轴刻度-标签
+    yticklabel style={\colorR},
+    % 
+    xtick=\empty,
+    % xticklabels={},
+    % 
+    % ytick={\getymin,\getymax},
+    ymin=\tickymin,
+    ymax=\tickymax,
+    ytick={\calymin,\calymax},
+    % 
+]
+
+\iiplot [a,\colorR] {
+b=\b{1};
+\funplot;
+\plotfunR;
+} 
+\addsymbol{0.634}{\symbolR $\{ b =\b{1} < 1-\theta\}$} 
+\addpoint{0}{85}
+\addpoint{1}{145}
+;
+
+
+\iiplot [a,\colorR,dashdotdotted,opacity=0.4] {
+b=\b{2};
+\funplot;
+\plotfunR;
+} 
+\addsymbol{0.315}{\symbolR $\{ b =\b{2} > 1-\theta\}$} 
+;
+
+
+ 
+
+
+
+\end{axis}
+\end{tikzpicture}\end{document}

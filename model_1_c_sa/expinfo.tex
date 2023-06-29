@@ -1,0 +1,56 @@
+\tikzmath{
+\ylabel{dc}="$d^c$";
+\ylabel{de}="$d^e$";
+\ylabel{ds}="$d^s$";
+\ylabel{phic}="$\phi^c$";
+\ylabel{phio}="$\phi^o$";
+\ylabel{phip}="$\phi^p$";
+% 
+\ylabel{pi1c}="$\pi^c_1$";
+\ylabel{pi2c}="$\pi^c_2$";
+% 
+\ylabel{pi1e}="$\pi^e_1$";
+\ylabel{pi2e}="$\pi^e_2$";
+% 
+\ylabel{pi}="$\pi$";
+% 
+\expr{q1}="$q_1=a_1+\phi-p+b(p-d)$";
+\expr{q2}="$q_2=a_2+h\phi-(p-d)+bp$";
+% 
+\expr{pi1c}="$\pi^c_1 = pq_1 + (1-\theta)pq_2$";
+\expr{pi2c}="$\pi^c_2 = (\theta p-d^c)q_2-{\phi^c}^2$";
+\expr{dc}="$d^c=\frac{2(1+\theta-b)p-\theta h^2p-2a_2}{4-h^2}$";
+\expr{phic}="$\phi^c=\frac{h(\theta+b-1)p+ha_2}{4-h^2}$";
+% % 
+\expr{pi1e}="$\pi^e_1=pq_1+(1-\theta)pq_2-{\phi^e}^2$";
+\expr{pi2e}="$\pi^e_2=(\theta p-d^e)q_2$";
+\expr{de}="$d^e=\frac{(2\theta+2-2b+\theta h^2-h-h^2)p-2a_2}{4}$";
+\expr{phie}="$\phi^e=\frac{(h-\theta h+1)p}{2}$";
+% % 
+\expr{pi}="$\pi=pq_1+(p-{d^\star})q_2-{\phi^\star}^2$";
+\expr{ds}="$d^\star=\frac{4-4b-h-h^2}{4-h^2}p-\frac{2a_2}{4-h^2}$";
+\expr{phis}="$\phi^\star=\frac{2bh+2}{4-h^2}p+\frac{ha_2}{4-h^2}$";
+% 
+\y{n}="";
+\y{dc}="Discount ($+d^c$) or surcharge ($-d^c$)";
+\y{de}="Discount ($+d^e$) or surcharge ($-d^e$)";
+\y{ds}="Discount ($+d^*$) or surcharge ($-d^*$)";
+\y{phi}="Promotional effort: ";
+\y{pi1}="Revenue of the food service provider: ";
+\y{pi2}="Revenue of the platform: ";
+\x{b} ="Substitution factor: $b$";
+\x{p} ="price: $p$";
+\x{theta} ="Revenue share: $\theta$";
+\x{h} ="Impact factor $h$";
+}
+ 
+
+
+\newcommand{\funexpr}[1]{
+d(#1)= (2*(1+theta-b)*p-theta*h**2*p-2*a2)/(4-h**2);
+phi(#1)=(h*p*(theta+b-1)+h*a2)/(4-h**2);
+Q1(#1)=a1+phi(#1)-p+b*(p-d(#1));
+Q2(#1)=a2+h*phi(#1)-p+d(#1)+b*p;
+pi1(#1)=Q1(#1)*p+Q2(#1)*(1-theta)*p;
+pi2(#1)=Q2(#1)*(theta*p-d(#1))-phi(#1)**2;
+}

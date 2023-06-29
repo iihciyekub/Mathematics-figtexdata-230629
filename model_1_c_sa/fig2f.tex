@@ -1,0 +1,240 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{cls/iitikz}
+\input{cls/bsty}
+\usepackage{amssymb}
+
+\input{model_1_c_sa/expinfo}
+
+
+\def\xmin{0}
+\def\xmax{1}
+
+
+
+
+
+
+% =------------= 
+\tikzmath{
+\a1=6;
+\a2=2;
+\p=4;
+% \th=0.65;
+\h{1}=0.56;
+% \h{2}=1.414;
+\h{3}=1.65;
+\b=0.7;
+}
+
+
+\def\plottitle{$
+a_1=\a1;
+a_2=\a2;
+b=\b;
+p=\p;
+% \theta=\th;
+h\in \{\h{1},\h{3}\};
+$}
+
+
+\edef\parameter{
+a1=\a1;
+a2=\a2;
+b=0.7;
+p=\p;
+% theta=\th;
+}
+
+
+
+
+% #1:d 
+% #2:phi
+% #3:b
+% #4:dc
+% #5:phic
+\def\setup#1#2#3#4#5{
+\edef\symbolL{\ylabel{#4}}
+\edef\symbolR{\ylabel{#5}}
+\edef\ylabelL{\y{#1}\ylabel{#4}}
+\edef\ylabelR{\y{#2}\ylabel{#5}}
+\edef\xlabel{\x{#3}}
+\edef\legenL{\expr{#4}}
+\edef\legenR{\expr{#5}}
+\edef\plotfunL{plot #1(x)}
+\edef\plotfunR{plot #2(x)}
+}
+
+
+
+
+
+% yL,yR,x,f(x1),f(x2)
+\setup{pi1}{pi2}{theta}{pi1c}{pi2c}
+\def\funplot{\parameter\funexpr{theta}}
+
+
+
+
+\begin{document}
+\tikzmath{
+\calymax=53.93;
+\calymin=18.21;
+\yupper = 0.3;
+\ylower = 0.7;
+\tickymax=\calymax + (\calymax-\calymin)*\yupper;
+\tickymin=\calymin - (\calymax-\calymin)*\ylower;
+}
+\begin{tikzpicture}[remember picture]
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % enlarge y limits={0.5,lower},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=left,
+    axis x line*=bottom,
+    y axis line style={\colorL},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelL},
+    ylabel style={\colorL},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorL},
+    % 轴刻度-标签
+    yticklabel style={\colorL},
+    % 
+    xtick={\getxmin,\getxmax},
+    % xticklabels={},
+    % 
+    ymin=\tickymin,
+    ymax=\tickymax,
+    ytick={\calymin,\calymax},
+    % ytick={\getymin,\getymax},
+    % 
+    extra description/.code={
+        \path [draw,gray] (axis description cs:0,0) rectangle (axis description cs:1,1) 
+            node [anchor=west,inner sep=0,font=\footnotesize] at (tick0.east) 
+            {$\rightsquigarrow$ \textcolor{MistyRose4}{\xlabel}};
+        },
+    % -------------------------------------- %
+    % 图例
+    legend pos=north west,
+    legend cell align=left,
+    legend style={row sep = 4pt,
+        opacity=0.9,
+        on layer=axis descriptions},
+    legend entries={\legenL,\legenR},
+]
+
+
+
+\iiplot [a,\colorL] {
+h=\h{1};
+\funplot;
+\plotfunL;
+} 
+\addsymbol{0.125}{\symbolL \{$h  < \sqrt{2}$\}} 
+\addpoint{0}{-45}
+\addpoint{1}{110}
+;
+\absplot{20};
+
+
+
+
+
+
+
+\iiplot [a,\colorL,dashdotdotted,opacity=0.4] {
+h=\h{3};
+\funplot;
+\plotfunL;
+} 
+\addsymbol{0.245,opacity=0.8,font=\footnotesize}{\symbolL \{$h > \sqrt{2}$\}} 
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{axis}
+
+\tikzmath{
+\calymax=18.5;
+\calymin=0.17;
+\yupper = 0.2;
+\ylower = 0.051;
+\tickymax=\calymax + (\calymax-\calymin)*\yupper;
+\tickymin=\calymin - (\calymax-\calymin)*\ylower;
+}
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % enlarge y limits={0.5,lower},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=right,
+    axis x line*=none,
+    y axis line style={\colorR},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelR},
+    ylabel style={\colorR},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorR},
+    % 轴刻度-标签
+    yticklabel style={\colorR},
+    % 
+    xtick=\empty,
+    % xticklabels={},
+    % 
+    ymin=\tickymin,
+    ymax=\tickymax,
+    ytick={0,\calymin,\calymax},
+    % ytick={\getymin,\getymax},
+    % 
+]
+
+\iiplot [a,\colorR] {
+h=\h{1};
+\funplot;
+\plotfunR;
+} 
+\addsymbol{0.325}{\symbolR \{$h < \sqrt{2}$\}} 
+\addpoint{0}{45}
+\addpoint{1}{-100}
+;
+
+
+\iiplot [a,\colorR,dashdotdotted,opacity=0.4] {
+h=\h{3};
+\funplot;
+\plotfunR;
+} 
+\addsymbol{0.325,opacity=0.8,font=\footnotesize}{\symbolR \{$h > \sqrt{2}$\}} 
+;
+
+
+
+
+\end{axis}
+\end{tikzpicture}\end{document}

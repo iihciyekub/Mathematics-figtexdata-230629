@@ -1,0 +1,226 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{cls/iitikz}
+\input{cls/bsty}
+\usepackage{amssymb}
+
+
+\input{model_1_c_sa/expinfo}
+ 
+
+
+ 
+
+\def\xmin{0}
+\def\xmax{2}
+
+
+
+
+
+\tikzmath{
+\a1=6;
+\a2=1;
+\p=2;
+\th=0.3;
+\b{1}=0.1;
+\b{2}=0.46;
+\varp=1-\th-\a2/\p;
+}
+
+
+\edef\plottitle{$
+a_1=\a1;
+a_2=\a2;
+b \in \{ \b{1},\b{2} \};
+p=\p;
+\theta=\th;
+$}
+
+
+\def\parameter{
+a1=\a1;
+a2=\a2;
+p=\p;
+theta=\th;
+}
+
+
+
+
+
+% #1:d
+% #2:phi
+% #3:b
+% #4:dc
+% #5:phic
+\def\setup#1#2#3#4#5{
+\edef\symbolL{\ylabel{#4}}
+\edef\symbolR{\ylabel{#5}}
+\edef\ylabelL{\y{#1}\ylabel{#4}}
+\edef\ylabelR{\y{#2}\ylabel{#5}}
+\edef\xlabel{\x{#3}}
+\edef\legenL{\expr{#4}}
+\edef\legenR{\expr{#5}}
+\edef\plotfunL{plot #1(x)}
+\edef\plotfunR{plot #2(x)}
+}
+
+ 
+
+
+\setup{pi1}{pi2}{h}{pi1c}{pi2c}
+\def\funplot{\funexpr{h}}
+
+
+
+
+\begin{document}
+\begin{tikzpicture}[remember picture]
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % enlarge y limits={0.1,upper},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=left,
+    axis x line*=bottom,
+    y axis line style={\colorL},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelL},
+    ylabel style={\colorL},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorL},
+    % 轴刻度-标签
+    yticklabel style={\colorL},
+    % 
+    xtick={\getxmin, \getxmax},
+    % xticklabels={\getxmin,$\sqrt{2}$,2,\getxmax},
+    % 
+    % ymin=0,
+    % ymax=55,
+    clip=false,
+    ytick={\getymin, \getymax},
+    % 
+    extra description/.code={
+        \path [draw,gray] (axis description cs:0,0) rectangle (axis description cs:1,1) 
+            node [anchor=west,inner sep=0,font=\footnotesize] at (tick0.east) 
+            {$\rightsquigarrow$ \textcolor{MistyRose4}{\xlabel}};
+        },
+    % -------------------------------------- %
+    % 图例
+    legend pos=north west,
+    legend cell align=left,
+    legend style={row sep = 4pt,
+        opacity=0.9,
+        on layer=axis descriptions},
+    legend entries={\legenL,\legenR},
+]
+
+
+
+\iiplot [a,\colorL] {
+b=\b{1};
+\parameter
+\funplot
+plot [0:1.89] pi1(x);
+} 
+\addsymbol{0.25}{\symbolL $\{b=\b{1}\}$} 
+\addpoint{0}{-45}
+\addpoint{1}{168}
+;
+
+
+
+\absplot{24};
+
+
+\iiplot [a,\colorL,dashdotdotted,opacity=0.4] {
+b=\b{2};
+\parameter
+\funplot
+plot [0:1.928] pi1(x);
+} 
+\addsymbol{0.07125}{\symbolL $\{b=\b{2}\}$} 
+;
+
+\addnote{0.67,0.968}{$1 - \theta - \frac{a2}{p} = \varp $}
+
+
+ 
+ 
+
+\end{axis}
+\tikzmath{
+\calymin=0;
+\calymax=0.91;
+\yupper = 0;
+\ylower = 0.7;
+\tickymax=\calymax + (\calymax-\calymin)*\yupper;
+\tickymin=\calymin - (\calymax-\calymin)*\ylower;
+}
+\begin{axis}[
+    defsty,
+    % 1-------------------------------------- %
+    % enlarge y limits={1.4,upper},
+    % 2-------------------------------------- %
+    % 标题
+    % title={\xttitle},
+    % title style={},
+    % -------------------------------------- %
+    % 轴线
+    axis y line*=right,
+    axis x line*=none,
+    y axis line style={\colorR},
+    % -------------------------------------- %
+    % 轴线标签/样式
+    ylabel={\ylabelR},
+    ylabel style={\colorR},
+    % -------------------------------------- %
+    % 轴刻度
+    ytick style={\colorR},
+    % 轴刻度-标签
+    yticklabel style={\colorR},
+    % 
+    xtick=\empty,
+    % xticklabels={},
+    % 
+    % ymin=0,
+    % ymax=20,
+    clip=false,
+    ymin=\tickymin,
+    ymax=\tickymax,
+    ytick={\calymin,\calymax},
+    % ytick={\getymin,\getymax},
+    % 
+]
+
+\iiplot [a,\colorR] {
+b=\b{1};
+\parameter
+\funplot
+plot [0:1.989]  pi2(x);
+} 
+\addsymbol{0.3}{\symbolR $\{b=\b{1}\}$} 
+\addpoint{0}{-45}
+;
+
+
+ \iiplot [a,\colorR,dashdotdotted,opacity=0.4] {
+b=\b{2};
+\parameter
+\funplot
+plot [0:1.92]  pi2(x);
+} 
+\addsymbol{0.3,above}{\symbolR  $\{b=\b{2}\}$} 
+;
+
+
+
+\end{axis}
+\end{tikzpicture}\end{document}
